@@ -39,8 +39,6 @@ Seneca Health Coach is a full-stack fitness application that provides:
 
 ## 🏗️ Architecture
 
-## 🏠️ Architecture
-
 ### System Architecture Overview
 
 <div align="center">
