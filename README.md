@@ -7,8 +7,9 @@ An intelligent, real-time fitness coaching platform that combines AI-powered fat
 Seneca Health Coach is a full-stack fitness application that provides:
 - **Real-time Health Monitoring**: Live tracking of heart rate, steps, and calories with anomaly detection
 - **AI-Powered Fatigue Prediction**: Machine learning model to predict user energy levels
+- **Smart Daily Planners**: Fatigue-adaptive meal planning and workout recommendations
+- **Comprehensive User Management**: Multi-collection data storage and retrieval
 - **Personalized Monthly Planning**: Automated fitness and nutrition plan generation
-- **Activity Recommendations**: Smart workout suggestions based on fatigue levels
 - **Real-time Data Processing**: Stream processing with Apache Spark and Kafka
 - **Interactive Dashboard**: Modern React-based frontend with real-time updates
 
@@ -41,7 +42,8 @@ Seneca Health Coach is a full-stack fitness application that provides:
 - **Lucide React** - Modern icon library
 
 **Backend:**
-- **FastAPI** - High-performance Python API framework
+- **FastAPI** - High-performance Python API framework (4 microservices)
+- **Flask** - Lightweight framework for user data service
 - **Machine Learning** - scikit-learn with pre-trained fatigue prediction model
 - **Authentication** - JWT-based security with OAuth2
 
@@ -59,13 +61,13 @@ Seneca Health Coach is a full-stack fitness application that provides:
 - **Docker & Docker Compose** - Containerized deployment
 - **Grafana** - Metrics visualization and monitoring
 - **AKHQ** - Kafka management interface
-
-## ✨ Key Features
+### ✨ Key Features
 
 ### 1. Real-time Health Dashboard
 - **Live Metrics**: Real-time heart rate, step count, and calorie tracking
 - **Interactive UI**: Beautiful, responsive dashboard with animated components
 - **Progress Tracking**: Daily goal monitoring with visual progress bars
+- **Multi-page Navigation**: Dedicated pages for logs, nutrition, sleep, and planning
 
 ### 2. AI-Powered Fatigue Prediction
 - **Machine Learning Model**: Pre-trained model using health metrics
@@ -78,19 +80,28 @@ Seneca Health Coach is a full-stack fitness application that provides:
   - Average heart rate during activity
 - **Prediction Output**: Categorizes user state as Energetic (1), Neutral (0), or Fatigued (2)
 
-### 3. Smart Activity Recommendations
-- **Fatigue-Aware Planning**: Suggests appropriate activities based on predicted energy level
-- **Activity Types**: Yoga, Walking, Swimming, Cycling, Weight Training, Running, Pilates
-- **Calorie Optimization**: Recommends duration to meet target calorie burn
-- **Safety Constraints**: Limits high-intensity activities when fatigued
+### 3. Smart Daily Planners
+- **Intelligent Meal Planning**: CSV-based nutrition database with 1000+ foods
+- **Fatigue-Adaptive Meals**: Meal plans adjust based on energy level
+  - Energetic (1): 5% calorie reduction for efficiency
+  - Fatigued (2): 25% calorie increase + extra snacks for energy
+- **Realistic Portion Sizes**: User-friendly serving descriptions
+- **Macro Optimization**: Automatic adjustment to hit protein, carb, and fat targets
+- **Workout Recommendations**: Activity suggestions based on fatigue and calorie goals
 
-### 4. Monthly Fitness Planning
+### 4. Advanced User Data Management
+- **Flask-based User Service**: RESTful API for user data retrieval
+- **MongoDB Integration**: Efficient storage and querying of user profiles
+- **Data Import Pipeline**: Automated import of fitness datasets
+- **Multi-collection Support**: Users, activities, heart rate, measurements, nutrition, sleep
+
+### 5. Monthly Fitness Planning
 - **Automated Goal Setting**: AI-generated goals based on user profile
 - **Personalized Plans**: Custom calorie and macronutrient targets
 - **Progress Tracking**: Monthly progression with adaptive planning
 - **Goal Types**: Weight loss, weight gain, muscle gain, maintenance
 
-### 5. Real-time Anomaly Detection
+### 6. Real-time Anomaly Detection
 - **Health Monitoring**: Continuous analysis of vital signs
 - **Alert System**: WebSocket-based real-time notifications
 - **Thresholds**:
@@ -98,7 +109,7 @@ Seneca Health Coach is a full-stack fitness application that provides:
   - Steps: < 500 or > 10,000 per day
 - **Visual Alerts**: Toast notifications with severity indicators
 
-### 6. Data Processing Pipeline
+### 7. Data Processing Pipeline
 - **Stream Processing**: Real-time data ingestion via Kafka
 - **Batch Analytics**: Spark-based daily load calculations
 - **ACWR Calculation**: Acute-to-Chronic Workload Ratio for injury prevention
@@ -170,7 +181,38 @@ uvicorn pipeline_main:app --host 0.0.0.0 --port 3001
 ```
 Access at: http://localhost:3001/docs
 
-#### 3. Data Ingestion API
+#### 3. Smart Daily Planners
+
+**Meal Planner Service:**
+```bash
+cd backend/daily_planners
+pip install pandas fastapi uvicorn
+uvicorn fatigued_meal_paln:app --host 0.0.0.0 --port 8002
+```
+Access at: http://localhost:8002/docs
+
+**Workout Planner Service:**
+```bash
+cd backend/daily_planners
+uvicorn workout_planner:app --host 0.0.0.0 --port 8003
+```
+Access at: http://localhost:8003/docs
+
+#### 4. User Data Service
+```bash
+cd backend/user
+pip install flask flask-cors pymongo
+python app.py
+```
+Access at: http://localhost:5000
+
+**Import fitness data:**
+```bash
+cd backend/user
+python load_data.py
+```
+
+#### 5. Data Ingestion API
 ```bash
 cd pipeline/ingestion
 pip install confluent-kafka python-jose passlib[bcrypt]
@@ -178,7 +220,7 @@ python ingestion_api.py
 ```
 Access at: http://localhost:8001/docs
 
-#### 4. Notification Engine
+#### 6. Notification Engine
 ```bash
 cd backend
 python notification_engine.py
@@ -214,6 +256,14 @@ API_KEY=your-secret-api-key
 SECRET_KEY=your-jwt-secret
 KAFKA_BOOTSTRAP_SERVERS=localhost:9092
 MONGODB_URI=mongodb://root:example@localhost:27017/
+
+# Service Ports
+FATIGUE_PREDICTOR_PORT=8000
+MONTHLY_PLANNER_PORT=3001
+MEAL_PLANNER_PORT=8002
+WORKOUT_PLANNER_PORT=8003
+USER_SERVICE_PORT=5000
+INGESTION_API_PORT=8001
 ```
 
 **Frontend:**
@@ -262,9 +312,28 @@ Access Locust UI at: http://localhost:8089
 
 ### API Testing
 All backend services include interactive Swagger documentation:
-- Fatigue Predictor: http://localhost:8000/docs
-- Monthly Planner: http://localhost:3001/docs
-- Data Ingestion: http://localhost:8001/docs
+- **Fatigue Predictor & Activity Recommender**: http://localhost:8000/docs
+- **Monthly Planner**: http://localhost:3001/docs
+- **Meal Planner**: http://localhost:8002/docs
+- **Workout Planner**: http://localhost:8003/docs
+- **User Data Service**: http://localhost:5000 (Flask endpoints)
+- **Data Ingestion**: http://localhost:8001/docs
+
+### Data Management
+
+#### Nutrition Database
+- **nutrition-data.csv**: 1000+ food items with detailed macro information
+- **Categories**: Fruits, Vegetables, Meats, Dairy, Grains, Nuts & Seeds
+- **Nutritional Data**: Calories, protein, carbs, fats per serving
+- **Smart Portioning**: Realistic serving size calculations
+
+#### User Data Collections
+- **users**: User profiles and basic information
+- **activities**: Exercise and activity logs
+- **heart_rate**: Real-time heart rate measurements
+- **measurements**: Body measurements and vital statistics
+- **nutrition**: Food intake and meal logs
+- **sleep**: Sleep patterns and quality metrics
 
 ## 📱 Frontend Components
 
@@ -274,20 +343,25 @@ All backend services include interactive Swagger documentation:
 - **MonthPlanner**: Personalized monthly plan viewer
 - **ActivityRecommander**: Smart workout suggestions
 - **NotificationAlerts**: Real-time health alerts
-- **MealPlanner**: Nutrition planning interface
+- **MealPlanner**: Nutrition planning interface with macro optimization
+- **FitnessLogs**: Activity tracking and logging interface
+- **Profile**: User profile management
+- **SleepLog**: Sleep tracking and analysis
+- **NutritionLogs**: Food intake tracking
 
 ### Navigation Structure
 ```
-Dashboard (/)
+Dashboard (/) or (/dashboard)
 ├── Health Tracking
-│   ├── Activity Logs (/logs)
-│   ├── Nutrition (/nutritions)
-│   └── Sleep Tracking (/sleep)
+│   ├── Activity Logs (/logs) - FitnessLogs component
+│   ├── Nutrition (/nutritions) - NutritionLogs component
+│   └── Sleep Tracking (/sleep) - SleepLog component
+│   └── User Profile (/profile) - Profile component
 └── Smart Features
-    ├── Monthly Planner (/planner)
-    ├── Fatigue Predictor (/predict)
-    ├── Activity Recommender (/recomander)
-    └── Meal Planner (/meals)
+    ├── Monthly Planner (/planner) - MonthPlanner component
+    ├── Fatigue Predictor (/predict) - FatiguePredictor component
+    ├── Activity Recommender (/recomander) - ActivityRecommander component
+    └── Meal Planner (/meals) - MealPlanner component
 ```
 
 ## 🔐 Security
