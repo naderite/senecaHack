@@ -1,3 +1,5 @@
 data/
 mongo_data/
-opt/
+opt/    
+kafka-data/
+__pycache__/

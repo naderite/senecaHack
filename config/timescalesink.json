@@ -1,0 +1,16 @@
+{
+    "name": "timescale-sink",
+    "config": {
+        "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+        "tasks.max": "1",
+        "topics": "heartrate",
+        "connection.url": "jdbc:postgresql://timescaledb:5432/gdp_db?user=postgres&password=postgres",
+        "auto.create": "true",
+        "auto.evolve": "true",
+        "insert.mode": "insert",
+        "pk.mode": "none",
+        "table.name.format": "heartrate_data",
+        "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+        "value.converter.schemas.enable": "false"
+    }
+}
