@@ -1,6 +1,18 @@
 # Seneca Health Coach 🏃‍♂️💪
 
-An intelligent, real-time fitness coaching platform that combines AI-powered fatigue prediction, personalized monthly planning, and comprehensive health monitoring with real-time anomaly detection.
+<div align="center">
+
+![Seneca Health Coach Banner](./archi%20(1).png)
+
+*An intelligent, real-time fitness coaching platform that combines AI-powered fatigue prediction, personalized monthly planning, and comprehensive health monitoring with real-time anomaly detection.*
+
+[![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Apache Kafka](https://img.shields.io/badge/Apache%20Kafka-000?style=for-the-badge&logo=apachekafka)](https://kafka.apache.org/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+
+</div>
 
 ## 🌟 Overview
 
@@ -14,6 +26,18 @@ Seneca Health Coach is a full-stack fitness application that provides:
 - **Interactive Dashboard**: Modern React-based frontend with real-time updates
 
 ## 🏗️ Architecture
+
+## 🏠️ Architecture
+
+### System Architecture Overview
+
+<div align="center">
+
+![System Architecture](./archi%20(2).png)
+
+*Comprehensive system architecture showing microservices, data flow, and technology stack*
+
+</div>
 
 ### System Components
 
@@ -32,8 +56,6 @@ Seneca Health Coach is a full-stack fitness application that provides:
 │                 │    │  TimescaleDB)    │    │                 │
 └─────────────────┘    └──────────────────┘    └─────────────────┘
 ```
-
-### Technology Stack
 
 **Frontend:**
 - **Next.js 15.5.3** - React framework with server-side rendering
