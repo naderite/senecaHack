@@ -6,6 +6,18 @@
 
 *An intelligent, real-time fitness coaching platform that combines AI-powered fatigue prediction, personalized monthly planning, and comprehensive health monitoring with real-time anomaly detection.*
 
+---
+
+## 🎥 **DEMO VIDEO** 🎥
+
+### **[🎬 Watch Full Application Demo](https://drive.google.com/file/d/1Jmdd2qtRZ8VyjgzNbRi2NcNXZy7ehP2p/view?usp=sharing)**
+
+*Click the link above to see Seneca Health Coach in action! 🚀*
+
+*The demo showcases all features including real-time dashboards, AI fatigue prediction, smart meal planning, and live health monitoring.*
+
+---
+
 [![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
 [![Apache Kafka](https://img.shields.io/badge/Apache%20Kafka-000?style=for-the-badge&logo=apachekafka)](https://kafka.apache.org/)
