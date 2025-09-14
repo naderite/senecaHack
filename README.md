@@ -150,7 +150,7 @@ Seneca Health Coach is a full-stack fitness application that provides:
 
 1. **Clone the Repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/naderite/senecaHack.git
    cd senecaHack
    ```
 
